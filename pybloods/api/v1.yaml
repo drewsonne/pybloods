@@ -1,0 +1,57 @@
+openapi: "3.0"
+info:
+  title: PyBloods
+  version: 0.1.0
+paths:
+  /observations:
+    get:
+      summary: Return a list of all observations
+      responses:
+        200:
+          description: A successlisting of all observations
+          content:
+            application/json:
+
+components:
+  schemas:
+    Observation:
+      allOf:
+        - $ref: "#/components/schemas/NewObservation"
+        - required:
+            - observation_id
+          properties:
+            observation_id:
+              type: integer
+              format: int64
+    NewObservation:
+      required:
+        - value
+        - unit_id
+        - recorded_at
+      properties:
+        value:
+          type: number
+          format: double
+        unit_id:
+          type: integer
+          format: int64
+        recorded_at:
+          type: string
+          format: 'date-time'
+    Unit:
+      allOf:
+        - $ref: "#/components/schemas/NewUnit"
+        - required:
+            - unit_id
+          properties:
+            unit_id:
+              type: integer
+              format: int64
+    NewUnit:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+  responses:
+  requestBodies:
