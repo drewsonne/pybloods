@@ -11,7 +11,22 @@ paths:
           description: A successlisting of all observations
           content:
             application/json:
-
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Observation"
+  /units:
+    get:
+      summary: Return a list of all available units
+      responses:
+        200:
+          description: A successful listing of all units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Unit"
 components:
   schemas:
     Observation:
@@ -53,5 +68,3 @@ components:
       properties:
         name:
           type: string
-  responses:
-  requestBodies:
