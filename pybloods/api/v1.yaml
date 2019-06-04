@@ -42,9 +42,129 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Sample"
+  /sources:
+    get:
+      summary: Return a list of all available sources
+      responses:
+        200:
+          description: A collection of laboratories and their healthcare providers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Source"
+  /providers:
+    get:
+      summary: Return a list of all available healthcare providers
+      responses:
+        200:
+          description: A collection of healthcare providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Provider"
+  /note_groups:
+    get:
+      summary: Return a list of all available note groups
+      responses:
+        200:
+          description: A collection of collection of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NoteGroup"
+  /note_group/{id}:
+    get:
+      summary: Return a list of notes
+      responses:
+        200:
+          description: A collection of notes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  note_group_id:
+                    type: integer
+                    format: inte64
+                  notes:
+                    type: array
+                    items: $ref: "#/components/schemas/Note"
 
 components:
   schemas:
+    NoteGroup:
+      required:
+        - note_group_id
+      properties:
+        note_group_id:
+          type: integer
+          format: int64
+    Note:
+      allOf:
+        - $ref: "#/components/schemas/NewNote"
+        - required:
+            - note_id
+          properties:
+            note_id:
+              type: integer
+              format: int64
+    NewNote:
+      required:
+        - note_group_id
+        - language
+        - documents
+        - content
+      properties:
+        note_group_id:
+          type: integer
+          format: int64
+        language:
+          type: string
+        documents:
+          type: array
+          items:
+            type: string
+    Provider:
+      allOf:
+        - $ref: "#/components/schemas/NewProvider"
+        - required:
+            - provider_id
+          properties:
+            provider_id:
+              type: integer
+              format: int64
+    NewProvider:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Source:
+      allOf:
+        - $ref: "#/components/schemas/NewSource"
+        - required:
+            - source_id
+          properties:
+            source_id:
+              type: integer
+              format: int64
+    NewSource:
+      required:
+        - provider_id
+        - lab_id
+      properties:
+        provider_id:
+          type: integer
+          format: int64
+        lab_id:
+          type: integer
+          format: int64
     Sample:
       allOf:
         - $ref: "#/components/schemas/NewSample"
@@ -86,7 +206,10 @@ components:
         unit_id:
           type: integer
           format: int64
-        recorded_at:
+        extracted_at:
+          type: string
+          format: 'date-time'
+        processed_at:
           type: string
           format: 'date-time'
     Unit:
