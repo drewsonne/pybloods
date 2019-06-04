@@ -27,8 +27,44 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Unit"
+  /samples:
+    get:
+      summary: Return a list of all available samples
+      responses:
+        200:
+          description: |
+            A collection of all bloods reports. This is usually
+            a group of one or more results (eg, blood chemistry, endocrinology, etc)
+            takes from a single vial of blood.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sample"
+
 components:
   schemas:
+    Sample:
+      allOf:
+        - $ref: "#/components/schemas/NewSample"
+        - required:
+            - sample_id
+          properties:
+            sample_id:
+              type: integer
+              format: int64
+    NewSample:
+      required:
+        - taken_at
+        - source_id
+      properties:
+        taken_at:
+          type: string
+          format: 'date-time'
+        source_id:
+          type: integer
+          format: int64
     Observation:
       allOf:
         - $ref: "#/components/schemas/NewObservation"
