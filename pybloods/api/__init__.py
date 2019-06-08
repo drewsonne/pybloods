@@ -12,7 +12,7 @@ class CliHandler(object):
         if cls.instance is None:
             cls.instance = cls()
 
-        cls.instance.start()
+        return cls.instance
 
     def __init__(self):
         self._db_session = init_db('sqlite:///:memory:')
@@ -31,4 +31,4 @@ class CliHandler(object):
 
 
 def run():
-    CliHandler.cli()
+    CliHandler.cli().start()
