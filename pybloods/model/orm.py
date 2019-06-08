@@ -53,11 +53,19 @@ class Observation(Base):
     unit_id = Column(Integer, ForeignKey('unit.unit_id'))
     extracted_at = Column(DateTime())
 
+
 class Unit(Base):
-    __tabename__ = 'unit'
+    __tablename__ = 'unit'
 
     unit_id = Column(Integer, primary_key=True)
     name = Column(String)
+
+
+class Lab(Base):
+    __tablename__ = 'lab'
+
+    lab_id = Column(Integer, primary_key=True)
+
 
 # class Pet(Base):
 #     __tablename__ = 'pets'

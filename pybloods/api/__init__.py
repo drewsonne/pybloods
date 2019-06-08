@@ -29,6 +29,10 @@ class CliHandler(object):
     def start(self):
         self._app.run(port=8081, use_reloader=False, threaded=False)
 
+    @property
+    def app(self):
+        return self._app.app
+
 
 def run():
     CliHandler.cli().start()
