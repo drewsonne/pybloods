@@ -1,4 +1,4 @@
-openapi: "3.0"
+openapi: 3.0.0
 info:
   title: PyBloods
   version: 0.1.0
@@ -81,6 +81,13 @@ paths:
   /note_group/{id}:
     get:
       summary: Return a list of notes
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the Note Group
       responses:
         200:
           description: A collection of notes
@@ -94,8 +101,8 @@ paths:
                     format: inte64
                   notes:
                     type: array
-                    items: $ref: "#/components/schemas/Note"
-
+                    items:
+                      $ref: "#/components/schemas/Note"
 components:
   schemas:
     NoteGroup:
@@ -130,6 +137,8 @@ components:
           type: array
           items:
             type: string
+        content:
+          type: string
     Provider:
       allOf:
         - $ref: "#/components/schemas/NewProvider"
@@ -198,7 +207,7 @@ components:
       required:
         - value
         - unit_id
-        - recorded_at
+        - extracted_at
       properties:
         value:
           type: number

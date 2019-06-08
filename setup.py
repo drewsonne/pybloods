@@ -16,5 +16,10 @@ setup(
     author='drews',
     author_email='',
     description='',
-    install_requires=requirements
+    install_requires=requirements,
+    entry_points={
+        'console_scripts': [
+            'pybloods-api=pybloods.api:run'
+        ]
+    }
 )
