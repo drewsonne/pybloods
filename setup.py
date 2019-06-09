@@ -10,7 +10,10 @@ with open('requirements.txt') as fp:
 setup(
     name='pybloods',
     version='0.1.0',
-    packages=['pybloods.api'],
+    packages=[
+        'pybloods.api',
+        'pybloods.client'
+    ],
     url='https://github.com/drewsonne/pybloods',
     license='',
     author='drews',
@@ -19,7 +22,8 @@ setup(
     install_requires=requirements,
     entry_points={
         'console_scripts': [
-            'pybloods-api=pybloods.api:run'
+            'pybloods-api=pybloods.api:run',
+            'pybloods=pybloods.cli:cli'
         ]
     }
 )

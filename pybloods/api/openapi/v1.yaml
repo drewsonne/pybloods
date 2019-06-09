@@ -11,16 +11,38 @@ paths:
       summary: Return a list of all observations
       responses:
         200:
-          description: A successlisting of all observations
+          description: A successful listing of all observations
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: "#/components/schemas/Observation"
+    post:
+      summary: Create a new observation
+      requestBody:
+        description: A new Observation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewObservation'
+      responses:
+        201:
+          description: A successful creation of an observation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Observation"
   /units:
     get:
       summary: Return a list of all available units
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: false
       responses:
         200:
           description: A successful listing of all units
@@ -30,6 +52,22 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Unit"
+    post:
+      summary: Create a new unit
+      requestBody:
+        description: A new Unit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUnit"
+      responses:
+        201:
+          description: A successful creation of a unit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unit"
   /samples:
     get:
       summary: Return a list of all available samples

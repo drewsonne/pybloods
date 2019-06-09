@@ -1,3 +1,3 @@
-from pybloods.api import CliHandler
+from pybloods.api import ApiApp
 
-app = CliHandler.cli().app
+app = ApiApp.api().app
