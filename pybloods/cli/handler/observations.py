@@ -1,7 +1,5 @@
-from pybloods.cli import api_client
 
 
-@api_client
 def create(client, value, unit, extraction_date):
     units = client.units
     observations = client.observations

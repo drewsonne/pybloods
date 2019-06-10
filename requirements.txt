@@ -1,4 +1,6 @@
 connexion[swagger-ui]
 click
 sqlalchemy
-bravado
+openapi3
+requests
+PyYaml

@@ -1,14 +1,24 @@
 import click
-
-from pybloods.cli.client import ApiClient, api_client
-from pybloods.cli.handler.observations import create as create_observation
+import requests
+import yaml
+from bravado.client import SwaggerClient
 
 
 @click.group()
-@click.option('--server', default='http://localhost:5000/api/v1')
+@click.option('--server', default='http://localhost:5000')
+@click.option('--api-version', default=1, type=int)
 @click.pass_context
-def run(ctx, server):
-    ctx.obj['server'] = server
+def run(ctx, server, api_version):
+    spec = yaml.safe_load(
+        requests.get('{server}/api/v{version}/openapi.json'.format(
+            server=server,
+            version=api_version
+        ))
+    )
+
+    ctx.obj['client'] = SwaggerClient.from_url(
+
+    )
 
 
 @run.group()
@@ -19,9 +29,10 @@ def observations(ctx): pass
 @observations.command()
 @click.option('--observation-ids', default=[])
 @click.pass_context
-@api_client
-def get(client, observation_ids):
-    observations.get(client, observation_ids)
+def get(ctx, observation_ids):
+    print(
+        ctx.obj['client'].pet.getPetById(petId=42).response().result
+    )
 
 
 @observations.command('create')
@@ -30,7 +41,8 @@ def get(client, observation_ids):
 @click.option('--extraction-date', required=True)
 @click.pass_context
 def create(ctx, value, unit, extraction_date):
-    create_observation(ctx, value, unit, extraction_date)
+    ctx.obj['client'].observations.addPet(body=pet).response().result
+    # create_observation(ctx, value, unit, extraction_date)
 
 
 @run.group()
