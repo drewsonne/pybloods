@@ -17,7 +17,7 @@ setup(
     url='https://github.com/drewsonne/pybloods',
     license='',
     author='drews',
-    author_email='',
+    author_email='drew.sonne@gmail.com',
     description='',
     install_requires=requirements,
     entry_points={

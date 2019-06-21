@@ -1,7 +1,7 @@
 import click
-import requests
-import yaml
-from bravado.client import SwaggerClient
+
+import pybloodsclient
+from pybloodsclient import Configuration
 
 
 @click.group()
@@ -9,15 +9,12 @@ from bravado.client import SwaggerClient
 @click.option('--api-version', default=1, type=int)
 @click.pass_context
 def run(ctx, server, api_version):
-    spec = yaml.safe_load(
-        requests.get('{server}/api/v{version}/openapi.json'.format(
-            server=server,
-            version=api_version
-        ))
-    )
+    cfg = Configuration()
+    cfg.host = "http://127.0.0.1:5000/api/v1"
+    cfg.host = f'{server}/api/v{api_version}'
 
-    ctx.obj['client'] = SwaggerClient.from_url(
-
+    ctx.obj['client'] = pybloodsclient.DefaultApi(
+        pybloodsclient.ApiClient(cfg)
     )
 
 
@@ -30,6 +27,8 @@ def observations(ctx): pass
 @click.option('--observation-ids', default=[])
 @click.pass_context
 def get(ctx, observation_ids):
+    # create an instance of the API class
+
     print(
         ctx.obj['client'].pet.getPetById(petId=42).response().result
     )
@@ -71,7 +70,7 @@ def units(ctx): pass
 
 
 def cli():
-    run(obj={})
+    run(obj={}, client=None)
 
 
 if __name__ == '__main__':
