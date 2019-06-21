@@ -103,3 +103,7 @@ venv.bak/
 # mypy
 .mypy_cache/
 .idea
+venv
+__pycache__
+*.egg-info
+pybloods.db

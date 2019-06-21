@@ -1,0 +1,279 @@
+openapi: 3.0.0
+info:
+  title: PyBloods
+  version: 0.1.0
+servers:
+  - url: /api/v1
+    description: Version 1 of the PyBloods API
+paths:
+  /observations:
+    get:
+      summary: Return a list of all observations
+      responses:
+        200:
+          description: A successful listing of all observations
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Observation"
+    post:
+      summary: Create a new observation
+      requestBody:
+        description: A new Observation
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewObservation'
+      responses:
+        201:
+          description: A successful creation of an observation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Observation"
+  /units:
+    get:
+      summary: Return a list of all available units
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          required: false
+      responses:
+        200:
+          description: A successful listing of all units
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Unit"
+    post:
+      summary: Create a new unit
+      requestBody:
+        description: A new Unit
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewUnit"
+      responses:
+        201:
+          description: A successful creation of a unit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Unit"
+  /samples:
+    get:
+      summary: Return a list of all available samples
+      responses:
+        200:
+          description: |
+            A collection of all bloods reports. This is usually
+            a group of one or more results (eg, blood chemistry, endocrinology, etc)
+            takes from a single vial of blood.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Sample"
+  /sources:
+    get:
+      summary: Return a list of all available sources
+      responses:
+        200:
+          description: A collection of laboratories and their healthcare providers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Source"
+  /providers:
+    get:
+      summary: Return a list of all available healthcare providers
+      responses:
+        200:
+          description: A collection of healthcare providers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Provider"
+  /note_groups:
+    get:
+      summary: Return a list of all available note groups
+      responses:
+        200:
+          description: A collection of collection of notes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NoteGroup"
+  /note_group/{id}:
+    get:
+      summary: Return a list of notes
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the Note Group
+      responses:
+        200:
+          description: A collection of notes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  note_group_id:
+                    type: integer
+                    format: inte64
+                  notes:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Note"
+components:
+  schemas:
+    NoteGroup:
+      required:
+        - note_group_id
+      properties:
+        note_group_id:
+          type: integer
+          format: int64
+    Note:
+      allOf:
+        - $ref: "#/components/schemas/NewNote"
+        - required:
+            - note_id
+          properties:
+            note_id:
+              type: integer
+              format: int64
+    NewNote:
+      required:
+        - note_group_id
+        - language
+        - documents
+        - content
+      properties:
+        note_group_id:
+          type: integer
+          format: int64
+        language:
+          type: string
+        documents:
+          type: array
+          items:
+            type: string
+        content:
+          type: string
+    Provider:
+      allOf:
+        - $ref: "#/components/schemas/NewProvider"
+        - required:
+            - provider_id
+          properties:
+            provider_id:
+              type: integer
+              format: int64
+    NewProvider:
+      required:
+        - name
+      properties:
+        name:
+          type: string
+    Source:
+      allOf:
+        - $ref: "#/components/schemas/NewSource"
+        - required:
+            - source_id
+          properties:
+            source_id:
+              type: integer
+              format: int64
+    NewSource:
+      required:
+        - provider_id
+        - lab_id
+      properties:
+        provider_id:
+          type: integer
+          format: int64
+        lab_id:
+          type: integer
+          format: int64
+    Sample:
+      allOf:
+        - $ref: "#/components/schemas/NewSample"
+        - required:
+            - sample_id
+          properties:
+            sample_id:
+              type: integer
+              format: int64
+    NewSample:
+      required:
+        - taken_at
+        - source_id
+      properties:
+        taken_at:
+          type: string
+          format: 'date-time'
+        source_id:
+          type: integer
+          format: int64
+    Observation:
+      allOf:
+        - $ref: "#/components/schemas/NewObservation"
+        - required:
+            - observation_id
+          properties:
+            observation_id:
+              type: integer
+              format: int64
+    NewObservation:
+      required:
+        - value
+        - unit_id
+        - extracted_at
+      properties:
+        value:
+          type: number
+          format: double
+        unit_id:
+          type: integer
+          format: int64
+        extracted_at:
+          type: string
+          format: 'date-time'
+        processed_at:
+          type: string
+          format: 'date-time'
+    Unit:
+      allOf:
+        - $ref: "#/components/schemas/NewUnit"
+        - required:
+            - unit_id
+          properties:
+            unit_id:
+              type: integer
+              format: int64
+    NewUnit:
+      required:
+        - name
+      properties:
+        name:
+          type: string
