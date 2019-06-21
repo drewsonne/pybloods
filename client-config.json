@@ -1,0 +1,5 @@
+{
+  "packageName": "client",
+  "projectName": "pybloods",
+  "library": "urllib3"
+}
