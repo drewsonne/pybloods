@@ -29,13 +29,15 @@ class AlchemyEncoder(json.JSONEncoder):
 
 def dictify(obj_list):
     if type(obj_list) in [list, tuple, Query]:
-        response =  [
-            AlchemyEncoder.to_dict(orm)
-            for orm
-            in obj_list
-        ]
+        response = []
+        for orm in obj_list:
+            response.append(
+                dictify(orm)
+            )
+    elif hasattr(obj_list, 'to_dict'):
+        response = obj_list.to_dict()
     else:
-        response =  AlchemyEncoder.to_dict(obj_list)
+        response = AlchemyEncoder.to_dict(obj_list)
     return response
 
 

@@ -6,9 +6,9 @@ from pybloods.model.orm import Observation
 
 
 def search():
-    result = ApiApp.db().query(Observation)
+    observations = ApiApp.db().query(Observation)
 
-    return dictify(result)
+    return dictify(observations)
 
 
 def post(body):
@@ -16,8 +16,8 @@ def post(body):
         body['extracted_at'] = moment.date(body['extracted_at']).datetime
 
     db = ApiApp.db()
-    o = Observation(**body)
-    db.add(o)
+    observation = Observation(**body)
+    db.add(observation)
     db.commit()
 
-    return o.to_dict(), 201
+    return dictify(observation), 201

@@ -12,11 +12,12 @@ setup(
     version='0.1.0',
     packages=[
         'pybloods.api',
-        'pybloods.cli'
+        'pybloods.cli',
+        'pybloods.model'
     ],
     url='https://github.com/drewsonne/pybloods',
-    license='',
-    author='drews',
+    license='LGPLv2',
+    author='Drew J. Sonne',
     author_email='drew.sonne@gmail.com',
     description='',
     install_requires=requirements,
