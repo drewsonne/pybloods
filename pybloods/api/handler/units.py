@@ -4,7 +4,6 @@ from pybloods.model.orm import Unit
 
 
 def search(name=None):
-    print('units.search')
     result = ApiApp.db().query(Unit)
     if name is not None:
         result = result.filter_by(name=name)
@@ -14,10 +13,8 @@ def search(name=None):
 
 def post(body):
     db = ApiApp.db()
-    u = Unit(name=body['name'])
+    u = Unit(**body)
     db.add(u)
     db.commit()
 
-    return None, 301, {
-        'Location': '/api/v1/unit/' + u.unit_id
-    }
+    return dictify(u), 201

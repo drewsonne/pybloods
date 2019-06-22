@@ -1,6 +1,7 @@
 connexion[swagger-ui]
 click
 sqlalchemy
-openapi3
 requests
 PyYaml
+pybloodsclient
+moment

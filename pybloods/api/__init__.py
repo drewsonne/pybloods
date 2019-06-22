@@ -40,3 +40,7 @@ class ApiApp(object):
 
 def run():
     ApiApp.api().start()
+
+
+if __name__ == '__main__':
+    run()

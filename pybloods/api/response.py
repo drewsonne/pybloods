@@ -2,6 +2,7 @@ import json
 import pprint
 
 from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy.orm import Query
 
 
 class AlchemyEncoder(json.JSONEncoder):
@@ -27,11 +28,15 @@ class AlchemyEncoder(json.JSONEncoder):
 
 
 def dictify(obj_list):
-    return [
-        AlchemyEncoder.to_dict(orm)
-        for orm
-        in obj_list
-    ]
+    if type(obj_list) in [list, tuple, Query]:
+        response =  [
+            AlchemyEncoder.to_dict(orm)
+            for orm
+            in obj_list
+        ]
+    else:
+        response =  AlchemyEncoder.to_dict(obj_list)
+    return response
 
 
 def jsonify(data):

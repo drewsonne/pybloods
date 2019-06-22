@@ -68,6 +68,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Unit"
+  /unit/{id}:
+    get:
+      summary: Return a unit
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of the Unit
+      responses:
+        200:
+          description: A collection of notes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  note_group_id:
+                    type: integer
+                    format: inte64
+                  notes:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Note"
   /samples:
     get:
       summary: Return a list of all available samples

@@ -12,7 +12,7 @@ setup(
     version='0.1.0',
     packages=[
         'pybloods.api',
-        'pybloods.client'
+        'pybloods.cli'
     ],
     url='https://github.com/drewsonne/pybloods',
     license='',
