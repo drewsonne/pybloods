@@ -53,6 +53,14 @@ class Observation(Base):
     unit_id = Column(Integer, ForeignKey('unit.unit_id'))
     extracted_at = Column(DateTime())
 
+    def to_dict(self):
+        return {
+            'observation_id': self.observation_id,
+            'value': self.value,
+            'unit_id': self.unit_id,
+            'extracted_at': self.extracted_at.isoformat()
+        }
+
 
 class Unit(Base):
     __tablename__ = 'unit'

@@ -1,10 +1,14 @@
 client: check-env
-	swagger-codegen \
-		generate \
-		-i http://${API_SERVER}/api/v1/openapi.json \
-		-l python \
-		-o ${CLIENT_DIR} \
-		-DpackageName=pybloodsclient
+	docker run \
+	    --rm -v ${PWD}:/local \
+	    openapitools/openapi-generator-cli generate \
+            -i http://${API_SERVER}/api/v1/openapi.json \
+            -g python \
+            -o /local/pybloods-client \
+            -DpackageName=pybloodsclient && \
+    sudo chown -R $(USER) ./pybloods-client && \
+    rsync -avz pybloods-client/ ${CLIENT_DIR} && \
+    rm -rf pybloods-client/
 
 
 check-env:

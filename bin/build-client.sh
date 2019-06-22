@@ -2,7 +2,7 @@
 
 # brew install swagger-codegen
 
-swagger-codegen generate \
+docker run --rm -v ${PWD}:/local openapitools/openapi-generator-cli generate \
     -l python \
     -i http://localhost:5000/api/v1/openapi.json \
     -o ./temp-client \

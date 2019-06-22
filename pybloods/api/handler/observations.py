@@ -20,4 +20,4 @@ def post(body):
     db.add(o)
     db.commit()
 
-    return dictify(o), 201
+    return o.to_dict(), 201
